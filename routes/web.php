@@ -20,16 +20,20 @@ Route::get('/collection', function(){
 	return view('book');
 })->name('collection');
 
-Route::get('/admin', function(){
-	return view('admin/dashboard');
-})->name('dashboard');
+Route::get('/admin','adminController@index')->name('admin');
 
-Route::get('/buku',function(){
-	return view('/admin/layouts/buku');
-})->name('buku');
+Route::get('/buku',	'BookController@main')->name('buku');
 
 Route::get('login','AuthController@failLogin')->name('login'); 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('createuser','adminController@regis')->name('regis');
+Route::post('/updateuser','adminController@update')->name('update');
+Route::delete('/deleteuser','adminController@delete')->name('delete');
+
+
+Route::post('addbook','BookController@add')->name('addbook');
+Route::post('/updatebook','BookController@update')->name('updatenook');
+Route::delete('/deletebook','BookController@delete')->name('deletebook');
