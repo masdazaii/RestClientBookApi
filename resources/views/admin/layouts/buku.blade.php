@@ -12,6 +12,7 @@
         curl_close($ch);
         $json = json_decode($result);
         $j=0;
+        //echo $json->Book[1]->id;
         
         foreach ($json as $key) {
             $j+=1;
@@ -47,8 +48,8 @@
                     <td>{{$json->Book[$i]->publisher->publisher}}</td>
                     <td>{{$json->Book[$i]->year}}</td>
                     <td>
-                      <button class="btn btn-warning">update</button>
-                      <button class="btn btn-danger" action="{{route('deletebook')}}">delete</button>
+                      <button class="btn btn-warning" data-target="#update{{$json->Book[$i]->id}}" data-toggle="modal" type="button">update</button>
+                        <button class="btn btn-danger" data-target="#delete{{$json->Book[$i]->id}}" type="button" data-toggle="modal">delete</button>
                     </td>
                   </tr>
                   @endfor
@@ -162,11 +163,139 @@
                               </div>
                           </div>
                           <div class="text-center">
-                              <button type="submit" class="btn btn-primary my-4" ">Sign in</button>
+                              <button type="submit" class="btn btn-primary my-4" ">Tambah</button>
                           </div>
                       </form>
                   </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  @for($i=0;$i<$all;$i++)
+  <div class="modal fade" id="update{{$json->Book[$i]->id}}" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+              <div class="card bg-secondary shadow border-0">
+                  <div class="card-body px-lg-5 py-lg-5">
+                      <div class="text-center text-muted mb-4">
+                          <large>TAMBAH BUKU</large>
+                      </div>
+                      <?php
+                        $id = $json->Book[$i]->id;
+                      ?>
+                      <form role="form" action="{{route('updatebook',$id)}}" method="POST">
+                        @csrf
+                          <div class="form-group mb-3">
+                              <div class="input-group input-group-alternative">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                  </div>
+                                  <input class="form-control" placeholder="id category" type="text" name="category" value="{{$json->Book[$i]->id_category}}">
+                              </div>
+                          </div>
+                          <div class="form-group mb-3">
+                              <div class="input-group input-group-alternative">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                  </div>
+                                  <input class="form-control" placeholder="id publisher" type="text" name="publisher"
+                                  value="{{$json->Book[$i]->id_publisher}}">
+                              </div>
+                          </div>
+                          <div class="form-group mb-3">
+                              <div class="input-group input-group-alternative">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                  </div>
+                                  <input class="form-control" placeholder="title" type="text" name="title" 
+                                  value="{{$json->Book[$i]->title}}">
+                              </div>
+                          </div>
+                          <div class="form-group mb-3">
+                              <div class="input-group input-group-alternative">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                  </div>
+                                  <input class="form-control" placeholder="author" type="text" name="author" value="{{$json->Book[$i]->author}}">
+                              </div>
+                          </div>
+                          <div class="form-group mb-3">
+                              <div class="input-group input-group-alternative">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                  </div>
+                                  <input class="form-control" placeholder="isbn" type="text" name="isbn" value="{{$json->Book[$i]->isbn}}">
+                              </div>
+                          </div>
+                          <div class="form-group mb-3">
+                              <div class="input-group input-group-alternative">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                  </div>
+                                  <input class="form-control" placeholder="year" type="text" name="year" value="{{$json->Book[$i]->year}}">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="input-group input-group-alternative">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                  </div>
+                                  <input class="form-control" placeholder="file link" type="text" name="link" value="{{$json->Book[$i]->file}}">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="input-group input-group-alternative">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                  </div>
+                                  <input class="form-control" placeholder="thumbnail link" type="text" name="tlink" value="{{$json->Book[$i]->thumbnail}}">
+                              </div>
+                          </div>
+                          <div class="text-center">
+                              <button type="submit" class="btn btn-primary my-4" ">Tambah</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  @endfor
 
-  
+
+  @for($i=0;$i<$all;$i++)
+  <div class="modal fade" id="delete{{$json->Book[$i]->id}}" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+              <div class="card bg-secondary shadow border-0">
+                  <div class="card-body px-lg-5 py-lg-5">
+                      <div class="text-center text-muted mb-4">
+                          <large>DELETE BUKU</large>
+                      </div>
+                      <?php
+                        $id = $json->Book[$i]->id;
+                      ?>
+                      <form role="form" action="{{route('deletebook',$json->Book[$i]->id)}}" method="DELETE">
+                        {{csrf_field()}}
+                          <div class="form-group">
+                              <div class="input-group input-group-alternative">
+                                  <input class="form-control" placeholder="thumbnail link" type="hidden" name="_method" value="GET">
+                              </div>
+                          </div>
+                          <div class="text-center">
+                              <button type="submit" class="btn btn-success my-4">Yes</button>
+                              <button type="button" class="btn btn-danger my-4" data-dismiss="modal">Cancel</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  @endfor
 @endsection

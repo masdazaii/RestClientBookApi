@@ -20,6 +20,12 @@ Route::get('/collection', function(){
 	return view('book');
 })->name('collection');
 
+
+Route::get('/detail',	function(){
+	return view('detail');
+})->name('detail');
+
+
 Route::get('/admin','adminController@index')->name('admin');
 
 Route::get('/buku',	'BookController@main')->name('buku');
@@ -34,6 +40,6 @@ Route::post('/updateuser','adminController@update')->name('update');
 Route::delete('/deleteuser','adminController@delete')->name('delete');
 
 
-Route::post('addbook','BookController@add')->name('addbook');
-Route::post('/updatebook','BookController@update')->name('updatenook');
-Route::delete('/deletebook','BookController@delete')->name('deletebook');
+Route::post('/addbook','BookController@add')->name('addbook');
+Route::post('/updatebook/{id}','BookController@update')->name('updatebook');
+Route::get('/deletebook/{id}','BookController@delete')->name('deletebook');
